@@ -11,6 +11,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { format, set } from 'date-fns';
 import api from './api/posts';
+import useWindowSize from './hooks/useWindowSize';
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -21,6 +22,7 @@ function App() {
   const [editTitle, setEditTitle] = useState(null);
   const [editBody, setEditBody] = useState(null);
   const navigate = useNavigate();
+  const {width} = useWindowSize();
 
   useEffect(() => {
     async function fetchPost() {
@@ -96,7 +98,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header title="Brand"/>
+      <Header title="Brand" width={width}/>
       <Navbar search={search} setSearch={setSearch}/>
         <Routes>
           <Route exact path='/' element={<Home posts={searchResults}/>}/>
@@ -120,7 +122,7 @@ function App() {
               />
             }
           />
-          
+
           <Route exact path='/post/:id' element={<PostPage posts={posts} handleDelete={handleDelete}/>}/>
           <Route path='/about' element={<About/>}/>
           <Route path='*' element={<Missing/>}/>
