@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react';
 import { format, set } from 'date-fns';
 import api from './api/posts';
 import useWindowSize from './hooks/useWindowSize';
+import useAxiosFetch from './hooks/useAxiosFetch';
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -23,6 +24,11 @@ function App() {
   const [editBody, setEditBody] = useState(null);
   const navigate = useNavigate();
   const {width} = useWindowSize();
+  const {data, fetchError, isLoading} = useAxiosFetch("http://localhost:3500/posts");
+
+  useEffect(()=> {
+    setPosts(data);
+  }, [data]);
 
   useEffect(() => {
     async function fetchPost() {
@@ -101,7 +107,13 @@ function App() {
       <Header title="Brand" width={width}/>
       <Navbar search={search} setSearch={setSearch}/>
         <Routes>
-          <Route exact path='/' element={<Home posts={searchResults}/>}/>
+          <Route exact path='/' element={
+            <Home 
+              posts={searchResults}
+              fetchError={fetchError}
+              isLoading={isLoading}
+            />
+          }/>
           <Route exact path='/post' element={<NewPost 
             handleSubmit={handleSubmit}
             postTitle={postTitle}
