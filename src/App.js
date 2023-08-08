@@ -9,7 +9,7 @@ import About from './components/About';
 import Missing from './components/Missing';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { format, set } from 'date-fns';
+import { format } from 'date-fns';
 import api from './api/posts';
 import useWindowSize from './hooks/useWindowSize';
 import useAxiosFetch from './hooks/useAxiosFetch';
